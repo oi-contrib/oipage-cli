@@ -12,15 +12,15 @@ const template_404 = readFileSync(join(__dirname, "../template/404.html"), {
     .replace("${img_folder}", img_folder)
     .replace("${img_file}", img_file);
 
-module.exports = function (filePath, url, website) {
+module.exports = function (filePath, url, website, name) {
 
     let subItems = [];
 
     try {
         subItems = readdirSync(filePath);
-        console.log("<i> \x1b[1m\x1b[32m[OIPage-http-server] Read Folder: " + url + '\x1b[0m ' + new Date().toLocaleString());
+        console.log("<i> \x1b[1m\x1b[32m[" + name + "-http-server] Read Folder: " + url + '\x1b[0m ' + new Date().toLocaleString());
     } catch (e) {
-        console.log("<i> \x1b[1m\x1b[32m[OIPage-http-server] Read " + (/\/$/.test(url) ? "Folder" : "File") + ": \x1b[35m" + url + ' 404 Not Found\x1b[0m ' + new Date().toLocaleString());
+        console.log("<i> \x1b[1m\x1b[32m[" + name + "-http-server] Read " + (/\/$/.test(url) ? "Folder" : "File") + ": \x1b[35m" + url + ' 404 Not Found\x1b[0m ' + new Date().toLocaleString());
         try {
             if (!/\/$/.test(url) || url === "/") {
                 filePath = join(filePath, "../");

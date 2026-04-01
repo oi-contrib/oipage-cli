@@ -160,7 +160,7 @@ module.exports = function (config) {
                 'Access-Control-Allow-Origin': '*',
                 'Server': 'Powered by ' + name + '@' + version
             });
-            response.write(resolve404(filePath, url, website));
+            response.write(resolve404(filePath, url, website, config.name || "OIPage"));
             response.end();
         }
 
