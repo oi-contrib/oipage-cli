@@ -3,3 +3,14 @@ v0.1.0:
     changes:
       - 初始化版本
         （承接原OIPagev1.x的命令行相关功能： https://github.com/oi-contrib/OIPage/tree/v1.x）
+v0.2.0:
+    date:2026-04-05
+    changes:
+      - 修复bug
+        1、修复部分服务器日志用户设置name未生效问题
+      - 优化改造
+        1、暴露更多有用的插件
+          * ZipaperIntercept
+          * VISLiteIntercept
+          * ScssLoader
+          * HtmlLoader

@@ -1,6 +1,6 @@
 {
   "name": "@oipage/cli",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "开发快速助手，一个包含常用功能的命令行工具，旨在提升开发效率",
   "sideEffects": false,
   "main": "./src/index.js",
@@ -38,6 +38,6 @@
     "oipage": "^2.0.0",
     "vislite": "^1.9.1",
     "xhtml-to-json": "^0.2.1",
-    "zipaper": "^0.3.1"
+    "zipaper": "^0.4.0"
   }
 }

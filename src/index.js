@@ -21,3 +21,9 @@ exports.serve = function (config) {
     mergeOption(option, config);
     require("../bin/serve")(option);
 };
+
+exports.ZipaperIntercept = require("../bin/website-plugins/intercept/oipage-zipaper-intercept.js");
+exports.VISLiteIntercept = require("../bin/website-plugins/intercept/oipage-vislite-intercept.js");
+
+exports.ScssLoader = require("../bin/website-plugins/loader/oipage-scss-loader.js");
+exports.HtmlLoader = require("../bin/website-plugins/loader/oipage-html-loader.js");

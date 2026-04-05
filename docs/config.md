@@ -1,5 +1,13 @@
 # 可配置项
 
+## name
+
+服务器名称，默认OIPage。
+
+## version
+
+服务器版本，默认使用@oipage/cli版本。
+
 ## devServer
 
 ### open

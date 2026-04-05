@@ -110,6 +110,19 @@ serve({
 });
 ```
 
+### 可用插件
+
+> 0.2.0 新增
+
+```js
+const { 
+    ZipaperIntercept, // Zipaper框架引入
+    VISLiteIntercept,  // VISLite库引入
+    ScssLoader, // scss文件解析
+    HtmlLoader, // html解析成json对象
+} = require("@oipage/cli");
+```
+
 已有功能或更多功能我们将根据实际情况逐步完善和维护，当然，你可以通过 [issue](https://github.com/oi-contrib/oipage-cli/issues) 给我们留言，告诉我们你的改进意见。
 
 ## 版权
