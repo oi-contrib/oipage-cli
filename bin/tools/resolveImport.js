@@ -51,7 +51,7 @@ module.exports = function (basePath, filePath, entry, intercept, isDownload, isW
                                     }
                                 }
 
-                                return npmName;
+                                return "/@modules/" + npmName;
                             } else {
                                 node_modulesRootPath = join(node_modulesRootPath, "../");
                                 prePath = "../" + prePath;
