@@ -39,9 +39,9 @@ module.exports = function (config) {
         // 请求的文件路径
         let filePath;
 
-        let isWebsite = website && /^\/_oipage_cli_website_\//.test(url);
+        let isWebsite = website && /^\/@website\//.test(url);
         if (isWebsite) {
-            filePath = join(__dirname, "./website-htmls/", url.replace(/^\/_oipage_cli_website_\//, ""));
+            filePath = join(__dirname, "./website-htmls/", url.replace(/^\/@website\//, ""));
         } else {
             filePath = join(basePath, url == "/" ? "index.html" : url.replace(/^\//, ""));
         }
@@ -56,7 +56,7 @@ module.exports = function (config) {
         }
 
         // 请求拦截
-        if (doIntercept(url.replace(/^\/_oipage_cli_website_/, "").replace(/^\/@modules\//, ""), isWebsite ? websiteIntercept : config.devServer.intercept, request, response, wsHandler)) {
+        if (doIntercept(url.replace(/^\/@website/, "").replace(/^\/@modules\//, ""), isWebsite ? websiteIntercept : config.devServer.intercept, request, response, wsHandler)) {
             console.log("<i> \x1b[1m\x1b[32m[" + name + "] intercept: " + url + '\x1b[0m ' + new Date().toLocaleString());
         } else {
 

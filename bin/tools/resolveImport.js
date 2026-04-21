@@ -16,7 +16,7 @@ module.exports = function (basePath, filePath, entry, intercept, isDownload, isW
                 return _importCode.replace(_importUrl, _importUrl.replace(/([^/])+/s, function (npmName) {
 
                     if (testIntercept(npmName, intercept)) {
-                        return (isWebsite ? "/_oipage_cli_website_/@modules/" : "/@modules/") + npmName;
+                        return (isWebsite ? "/@website/@modules/" : "/@modules/") + npmName;
                     } else {
 
                         let node_modulesRootPath = join(filePath, "../");

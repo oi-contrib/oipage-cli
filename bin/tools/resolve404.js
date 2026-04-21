@@ -80,5 +80,5 @@ module.exports = function (filePath, url, website, name) {
         }
     }
 
-    return template_404.replace("${website}", website ? '<a class="website-link" href="/_oipage_cli_website_/index.html">打开应用市场</a>' : '').replace("${current}", filePath).replace("${template}", template);
+    return template_404.replace("${website}", website ? '<a class="website-link" href="/@website/index.html">打开应用市场</a>' : '').replace("${current}", filePath).replace("${template}", template);
 };

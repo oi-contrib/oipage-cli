@@ -6,7 +6,7 @@
   "main": "./src/index.js",
   "typings": "./types/index.d.ts",
   "scripts": {
-    "serve": "node ./bin/run serve --config ./oipage.config.js --open"
+    "serve": "node ./bin/run serve --config ./oipage.config.js --open -p 20000"
   },
   "bin": {
     "oipage-cli": "bin/run"
