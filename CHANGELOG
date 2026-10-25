@@ -19,3 +19,29 @@ v0.2.1:
     changes:
       - 修复bug
         1、修复npm安装包当前命令行非根目录时，无法正确查找命令行目录下的node_modules错误
+v0.3.0:
+    date:2026-10-25
+    changes:
+      - 修复bug
+        1、修复服务器若干问题
+          * 路径穿越漏洞（Path Traversal）
+            比如： printf 'GET /../../../../../Users/admin/.codex/auth.json HTTP/1.1\r\nHost: 127.0.0.1:8080\r\nConnection: close\r\n\r\n' | nc 127.0.0.1 8080
+          * 404 页面 XSS 漏洞
+          * 畸形URL导致客户端持续挂起等待问题
+          * 加固阻止 Nmap 等扫描器的服务探测
+          * 文件扩展名提取可能抛出 TypeError 问题
+          * 路径匹配添加更多兼容，防止意外错误
+          * 修复对文件夹判断未考虑符号链接指向的目录问题导致import语句解析出错问题
+          * 兼容 "@oipage/browser.js" 类似的包
+        2、修复错误读取导致服务器奔溃问题
+        3、对于二进制文件，采用流式传输
+      - 优化改造
+        1、优化命令行相关文档优化，提高可读性
+        2、优化服务器若干问题
+          * proxy中decodeURIComponent捕获错误，方便调试
+          * 打印访问IP，方便后续追踪攻击
+      - 新增功能
+        1、oipage-cli notebook 
+          快速笔记
+        2、devServer
+           * 支持gzip

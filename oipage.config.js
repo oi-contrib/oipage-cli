@@ -1,8 +1,10 @@
 module.exports = {
     devServer: {
+        open: false,
         // port: 20000,
         baseUrl: "./",
         cache: true,
+        // gzip: true,
         // proxy: {
         //     "/apidemo": {
         //         target: "http://127.0.0.1:8080",

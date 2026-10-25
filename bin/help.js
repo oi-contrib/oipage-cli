@@ -22,9 +22,14 @@ module.exports = function () {
         是否启用304（默认true表示开启）
     （eg: oipage-cli serve -p 20000 ）
     --proxy [转发前缀] [转发地址]
-    （注意：转发前缀会被替换为空，相当于设置了 pathRewrite: { '^/demo': '' }）
+    （注意：转发前缀会被替换为空，相当于设置了 pathRewrite: { '^/myapi': '' }）
+    （eg: oipage-cli serve --open --proxy /myapi http://localhost:20000/myapi）
+    --gzip [true|false]
+        是否开启gzip（默认true表示开启）
 
-【2】oipage-cli disk 磁盘操作
+【2】oipage-cli notebook 快速笔记
+
+【3】oipage-cli disk 磁盘操作
     --force|-f 
         强制执行，如果目标地址已有内容，会直接强制删除已有内容
     --delete|-d [文件或文件夹地址]
@@ -39,10 +44,10 @@ module.exports = function () {
         创建磁盘链接
     （eg: oipage-cli disk -m ./test.js ~/test.js -f ）
 
-【3】oipage-cli run "任务一" "任务二" ... 运行多命令
+【4】oipage-cli run "任务一" "任务二" ... 运行多命令
     ( 如果希望动态给任务传递参数，可以查看： https://github.com/oi-contrib/OIPage/issues/5 )
 
-【4】oipage-cli network 网络相关
+【5】oipage-cli network 网络相关
     --log 
         打印网络信息
     （eg: oipage-cli network --log ）

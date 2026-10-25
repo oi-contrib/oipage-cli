@@ -24,6 +24,7 @@ if (process.argv[2] === "serve") {
             baseUrl: "./",
             open: false,
             cache: true,
+            gzip: true,
             proxy: {},
             intercept: [],
             404: null,
@@ -53,11 +54,14 @@ if (process.argv[2] === "serve") {
         }
     }
 
-    if (argvObj["--port"]) config.devServer.port = argvObj["--port"][0];
-    if (argvObj["--baseUrl"]) config.devServer.baseUrl = argvObj["--baseUrl"][0];
-    if (argvObj["--cache"]) config.devServer.cache = argvObj["--cache"][0] === "true";
-    if (argvObj["--open"]) config.devServer.open = argvObj["--open"][0] || true;
-    if (argvObj["--website"]) config.devServer.website = argvObj["--website"][0] === "true";
+    let resolveBoolean = input => input[0] !== "false";
+
+    if (argvObj["--port"]) config.devServer.port = resolveBoolean(argvObj["--port"]);
+    if (argvObj["--baseUrl"]) config.devServer.baseUrl = resolveBoolean(argvObj["--baseUrl"]);
+    if (argvObj["--cache"]) config.devServer.cache = resolveBoolean(argvObj["--cache"]);
+    if (argvObj["--gzip"]) config.devServer.gzip = resolveBoolean(argvObj["--gzip"]);
+    if (argvObj["--open"]) config.devServer.open = resolveBoolean(argvObj["--open"]);
+    if (argvObj["--website"]) config.devServer.website = resolveBoolean(argvObj["--website"]);
 
     require("./serve.js")(config);
 }
@@ -126,6 +130,14 @@ else if (process.argv[2] === "network") {
     let argvObj = formatArgv(process.argv, {}, true);
 
     require("./network.js")(argvObj);
+}
+
+// 快速笔记
+else if (process.argv[2] === "notebook") {
+
+    let argvObj = formatArgv(process.argv, {}, true);
+
+    require("./notebook/index.js")(argvObj);
 }
 
 // 默认，帮助

@@ -8,6 +8,7 @@ exports.serve = function (config) {
             baseUrl: "./",
             open: false,
             cache: true,
+            gzip: true,
             proxy: {},
             intercept: [],
             404: null,

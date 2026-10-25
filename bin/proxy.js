@@ -21,10 +21,17 @@ module.exports = function (args, proxy) {
                 };
 
                 let headers = request.headers;
-                let url = decodeURIComponent(request.url);
+                let url
+
+                try {
+                    url = decodeURIComponent(request.url);
+                } catch (e) {
+                    console.log("decodeURIComponent error: ", e);
+                    throw e;
+                }
 
                 if (proxyItem.pathRewrite) {
-                    for (pathRewrite_key in proxyItem.pathRewrite) {
+                    for (let pathRewrite_key in proxyItem.pathRewrite) {
                         url = url.replace(new RegExp(pathRewrite_key), proxyItem.pathRewrite[pathRewrite_key]);
                     }
                 }

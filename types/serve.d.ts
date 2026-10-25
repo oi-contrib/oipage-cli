@@ -24,6 +24,13 @@ interface DevServerType {
     cache: boolean
 
     /**
+     * 是否开启 gzip 压缩，默认不开启
+     * 
+     * 开启后，对支持 gzip 的客户端请求，自动压缩可压缩类型的文本资源（如 HTML、CSS、JS、JSON、SVG 等）
+     */
+    gzip?: boolean
+
+    /**
      * 是否开启应用市场，默认true表示开启
      */
     website: boolean

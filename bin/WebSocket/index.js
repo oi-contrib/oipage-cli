@@ -8,6 +8,18 @@ const encodeWsFrame = require('./encodeWsFrame');
 module.exports = function (port, name, version, isRun) {
     let sockets = [];
 
+    // 连接速率限制：每IP每分钟最多允许的连接数
+    const RATE_LIMIT = 20;
+    const RATE_WINDOW = 60000; // 1分钟
+    const connectionCount = {};
+
+    // 定期清理连接计数器
+    setInterval(() => {
+        for (let ip in connectionCount) {
+            delete connectionCount[ip];
+        }
+    }, RATE_WINDOW);
+
     let handler = {
         notifyBrowser: (msg) => {
             for (let socket of sockets) {
@@ -18,18 +30,29 @@ module.exports = function (port, name, version, isRun) {
 
     const server = net.createServer(socket => {
 
+        // 连接速率限制
+        const ip = socket.remoteAddress;
+        connectionCount[ip] = (connectionCount[ip] || 0) + 1;
+        if (connectionCount[ip] > RATE_LIMIT) {
+            socket.destroy();
+            return;
+        }
+
         // 错误
         socket.on('error', (error) => {
             console.log('Connection error:', error.message);
         });
 
-        // 数据
-        socket.on('data', buffer => {
-            console.log('Connection data:' + (decodeWsFrame(buffer).payloadData?.toString() || "断开连接......"));
-        });
-
         // 连接
         socket.once('data', buffer => {
+
+            // 协议过滤：只接受以 HTTP 方法开头的连接，拒绝扫描器探测
+            // 2026年8月9日 于南宁
+            const head = buffer.toString('ascii', 0, 20);
+            if (!/^(GET|POST|OPTIONS|HEAD|PUT|DELETE|PATCH) /i.test(head)) {
+                socket.destroy();
+                return;
+            }
 
             // 把请求头变成容易操作的json
             const headers = headersToJSON(buffer.toString());
@@ -65,7 +88,7 @@ module.exports = function (port, name, version, isRun) {
             // 否则就普通的，
             // 普通的由http服务器提供支持
             else {
-                socket.end();
+                socket.destroy();
 
             }
         });

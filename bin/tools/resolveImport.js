@@ -1,10 +1,11 @@
-const { readFileSync, existsSync, lstatSync } = require("fs");
+const { readFileSync, existsSync, statSync } = require("fs");
 const { join } = require("path");
 const { testIntercept } = require("../intercept.js");
 
 module.exports = function (basePath, filePath, entry, intercept, isDownload, isWebsite) {
     basePath = join(basePath, "./");
 
+    if (statSync(filePath).isDirectory()) { return { source: "", resolveImport: content => content }; }
     let source = readFileSync(filePath);
     let resolveImport = content => content;
 
@@ -13,7 +14,7 @@ module.exports = function (basePath, filePath, entry, intercept, isDownload, isW
             if (/^[./]/.test(_importUrl)) {
                 return _importCode;
             } else {
-                return _importCode.replace(_importUrl, _importUrl.replace(/([^/])+/s, function (npmName) {
+                return _importCode.replace(_importUrl, _importUrl.replace(/((@[^/]+\/){0,1}[^/])+/s, function (npmName) {
 
                     if (testIntercept(npmName, intercept)) {
                         return (isWebsite ? "/@website/@modules/" : "/@modules/") + npmName;
@@ -25,12 +26,16 @@ module.exports = function (basePath, filePath, entry, intercept, isDownload, isW
                             let npmBundlePath = join(node_modulesRootPath, "./node_modules/", npmName);
 
                             // 如果存在
-                            if (existsSync(npmBundlePath) && lstatSync(npmBundlePath).isDirectory()) {
+                            if (existsSync(npmBundlePath) && statSync(npmBundlePath).isDirectory()) {
                                 let npmNameValue = npmName;
 
                                 // 对于类似 import VISLite from "vislite"
                                 // 需要把包名解析成具体的文件
-                                if (!/\//.test(_importUrl)) {
+                                if (!/\//.test(_importUrl
+
+                                    // 兼容 "@oipage/browser.js" 类似的包
+                                    // 2026年09月11日 于南宁
+                                    .replace(/@[^/]+\//, ""))) {
                                     let bundlePackage = require(join(npmBundlePath, "./package.json"));
                                     npmNameValue = npmName + "/" + bundlePackage.main;
                                 }
@@ -42,7 +47,10 @@ module.exports = function (basePath, filePath, entry, intercept, isDownload, isW
 
                                 // 如果命令行根目录是一个项目
                                 let packagePath = join(basePath, "./package.json");
-                                if (existsSync(packagePath) && !lstatSync(packagePath).isDirectory()) {
+
+                                // statSync代替lstatSync，修复符号链接指向文件夹时无法正确判断文件
+                                // 2026年09月10日 于南宁
+                                if (existsSync(packagePath) && !statSync(packagePath).isDirectory()) {
                                     let bundlePackage = require(packagePath);
                                     if (!/\//.test(_importUrl)) {
                                         return "/" + bundlePackage.main;
